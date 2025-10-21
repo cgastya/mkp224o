@@ -21,11 +21,19 @@ jobs:
     - name: Build mkp224o
       run: |
         cd mkp224o
+        ./autogen.sh
+        ./configure
         make
 
     - name: Run mkp224o
       run: |
         cd mkp224o
-        ./mkp224o -d mykeys zeroday
+        ./mkp224o -d mykeys --threads 2 zeroday
         echo "Finished generating."
-        ls output
+
+
+    - name: Upload result
+      uses: actions/upload-artifact@v4
+      with:
+        name: onion-result
+        path: mkp224o/output
