@@ -21,7 +21,7 @@ jobs:
 
       - name: Run mkp224o and generate keys
         # This will generate 3 addresses and then stop automatically
-        run: ./mkp224o -d mykeys/ -n 3 anonymous
+        run: ./mkp224o -d mykeys/ -n 1 anonymous
 
       - name: Upload onion keys
         uses: actions/upload-artifact@v4
