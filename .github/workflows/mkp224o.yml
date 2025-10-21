@@ -1,0 +1,31 @@
+name: Generate Vanity Onion
+
+on:
+  workflow_dispatch:  # allows manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential git
+
+    - name: Clone mkp224o
+      run: git clone https://github.com/cathugger/mkp224o.git
+
+    - name: Build mkp224o
+      run: |
+        cd mkp224o
+        make
+
+    - name: Run mkp224o
+      run: |
+        cd mkp224o
+        ./mkp224o -d mykeys zeroday
+        echo "Finished generating."
+        ls output
