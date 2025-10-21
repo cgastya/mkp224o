@@ -1,38 +1,30 @@
 name: Generate Vanity Onion
 
 on:
-  workflow_dispatch:  # allows manual trigger
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y build-essential git autoconf automake libtool libsodium-dev
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential git autoconf automake libtool libsodium-dev
 
-    - name: Clone mkp224o
-      run: git clone https://github.com/cathugger/mkp224o.git
+      - name: Build mkp224o
+        run: |
+          ./autogen.sh
+          ./configure
+          make
 
-    - name: Build mkp224o
-      run: |
-        cd mkp224o
-        ./autogen.sh
-        ./configure
-        make
+      - name: Run mkp224o and generate keys
+        # This will generate 3 addresses and then stop automatically
+        run: ./mkp224o -d mykeys/ -n 3 barknet
 
-    - name: Run mkp224o
-      run: |
-        cd mkp224o
-        ./mkp224o -d mykeys -t 2 barknet
-        echo "Finished generating."
-
-    - name: Upload result
-      uses: actions/upload-artifact@v4
-      with:
-        name: onion-result
-        path: mkp224o/output
+      - name: Upload onion keys
+        uses: actions/upload-artifact@v4
+        with:
+          name: onion-keys
+          path: mykeys/
