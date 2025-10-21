@@ -13,7 +13,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y build-essential git
+        sudo apt install -y build-essential git autoconf automake libtool libsodium-dev
 
     - name: Clone mkp224o
       run: git clone https://github.com/cathugger/mkp224o.git
@@ -30,7 +30,6 @@ jobs:
         cd mkp224o
         ./mkp224o -d mykeys --threads 2 barknet
         echo "Finished generating."
-
 
     - name: Upload result
       uses: actions/upload-artifact@v4
