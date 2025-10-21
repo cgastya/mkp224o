@@ -28,7 +28,7 @@ jobs:
     - name: Run mkp224o
       run: |
         cd mkp224o
-        ./mkp224o -d mykeys --threads 2 barknet
+        ./mkp224o -d mykeys -t 2 barknet
         echo "Finished generating."
 
     - name: Upload result
